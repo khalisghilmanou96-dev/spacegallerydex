@@ -1,0 +1,53 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SpaceGalleryDex 🌌 — NASA Images</title><style>
+:root{--bg:#071018;--p:#0f1a26;--p2:#162636;--txt:#f6fbff;--mut:#9fb4c7;--a:#7be7ff;--b:#ffb86b;--line:#263e52}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0,#153a58 0,transparent 30%),var(--bg);color:var(--txt);font:15px system-ui,sans-serif}.wrap{max-width:1200px;margin:auto;padding:22px}
+header{display:flex;justify-content:space-between;align-items:center}.logo{font-size:26px;font-weight:1000}.logo b{color:var(--a)}.pill{border:1px solid var(--line);border-radius:99px;padding:8px 12px;color:var(--mut)}
+.hero{margin:22px 0;padding:32px;border-radius:25px;border:1px solid var(--line);background:linear-gradient(125deg,#112536,#173f5c)}h1{font-size:clamp(38px,6vw,67px);line-height:.94;margin:0}.hero p{color:var(--mut);font-size:17px;max-width:760px}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}input,select,button{padding:12px 14px;border-radius:12px;font:inherit}input,select{background:var(--p);border:1px solid var(--line);color:var(--txt)}input{flex:1;min-width:220px}button{border:0;background:var(--a);color:#04212b;font-weight:900;cursor:pointer}.secondary{background:var(--p2);color:var(--txt);border:1px solid var(--line)}
+.status{color:var(--mut);margin:12px 0}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:14px}.card{background:var(--p);border:1px solid var(--line);border-radius:18px;overflow:hidden;cursor:pointer}.card img{width:100%;height:210px;object-fit:cover;background:#05080d}.ct{padding:13px}.ct b{font-size:17px}.ct span{display:block;color:var(--mut);margin-top:5px}.modal{position:fixed;inset:0;background:#000b;display:none;place-items:center;padding:20px;z-index:20}.modal.open{display:grid}.modalbox{max-width:900px;max-height:90vh;overflow:auto;background:var(--p);border:1px solid var(--line);border-radius:22px;padding:18px}.modalbox img{width:100%;max-height:60vh;object-fit:contain;border-radius:14px;background:#05080d}.close{float:right;background:var(--b);color:#261506}.desc{color:#d6e1e9;line-height:1.6}.meta{color:var(--mut)}footer{margin-top:30px;border-top:1px solid var(--line);padding:20px 0;color:#728fa3}@media(max-width:650px){.pill{display:none}}
+.telescopes{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}.scope{background:var(--p2);color:var(--txt);border:1px solid var(--line);padding:9px 12px}.scope:hover{border-color:var(--a);color:var(--a)}
+</style></head><body><div class="wrap"><header><div class="logo">SPACEGALLERY<b>DEX</b> 🌌</div><div class="pill">NASA Images API · sans clé</div></header>
+<section class="hero"><h1>Galerie<br>spatiale NASA.</h1><p>Recherche des images de missions, planètes, astronautes, galaxies, télescopes et objets célestes directement dans la bibliothèque média de la NASA.</p></section>
+<div class="controls"><input id="q" value="James Webb Space Telescope" placeholder="Rechercher dans la NASA…"><select id="year"><option value="">Toutes les années</option></select><button id="search">Rechercher</button><button id="more" class="secondary">20 suivantes</button></div>
+<div class="telescopes">
+<button class="scope" data-q="James Webb Space Telescope">🔭 James Webb</button>
+<button class="scope" data-q="Hubble Space Telescope">🌌 Hubble</button>
+<button class="scope" data-q="Chandra X-ray Observatory">✨ Chandra</button>
+<button class="scope" data-q="Spitzer Space Telescope">🌠 Spitzer</button>
+<button class="scope" data-q="Kepler Space Telescope">🪐 Kepler</button>
+<button class="scope" data-q="TESS Transiting Exoplanet Survey Satellite">🔭 TESS</button>
+<button class="scope" data-q="Fermi Gamma-ray Space Telescope">💫 Fermi</button>
+<button class="scope" data-q="WISE Wide-field Infrared Survey Explorer">🌌 WISE</button>
+<button class="scope" data-q="Swift Observatory">✨ Swift</button>
+<button class="scope" data-q="NuSTAR">🛰️ NuSTAR</button>
+<button class="scope" data-q="GALEX">🌠 GALEX</button>
+<button class="scope" data-q="Solar Dynamics Observatory SDO">☀️ SDO</button>
+<button class="scope" data-q="SOHO Solar Observatory">☀️ SOHO</button>
+<button class="scope" data-q="Nancy Grace Roman Space Telescope">🔭 Roman</button>
+</div><div id="status" class="status">Chargement de la galerie…</div><main id="grid" class="grid"></main>
+<footer>SpaceGalleryDex · NASA Image and Video Library · compatible GitHub Pages.</footer></div>
+<div id="modal" class="modal"><div class="modalbox"><button class="close" id="close">Fermer</button><div id="detail"></div></div></div>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+let page=1,items=[];
+const now=new Date().getFullYear();for(let y=now;y>=1950;y--)$("#year").insertAdjacentHTML("beforeend",`<option>${y}</option>`);
+async function get(url){const c=new AbortController(),t=setTimeout(()=>c.abort(),12000);try{const r=await fetch(url,{signal:c.signal});if(!r.ok)throw Error(r.status);return await r.json()}finally{clearTimeout(t)}}
+function imageOf(x){return (x.links||[]).find(l=>l.render==="image")?.href||""}
+function card(x,i){const d=x.data?.[0]||{},img=imageOf(x),date=(d.date_created||"").slice(0,10);return `<article class="card" data-i="${i}">${img?`<img loading="lazy" decoding="async" src="${esc(img)}" alt="${esc(d.title||"NASA")}">`:""}<div class="ct"><b>${esc(d.title||"Image NASA")}</b><span>${esc(date)}</span><span>${esc(d.center||"NASA")}</span></div></article>`}
+function bind(){document.querySelectorAll(".card").forEach(c=>c.onclick=()=>openItem(items[+c.dataset.i]))}
+function openItem(x){const d=x.data?.[0]||{},img=imageOf(x),date=(d.date_created||"").slice(0,10);$("#detail").innerHTML=`${img?`<img src="${esc(img)}">`:""}<h2>${esc(d.title||"Image NASA")}</h2><div class="meta">${esc(date)} · ${esc(d.center||"NASA")}</div><p class="desc">${esc(d.description||"Aucune description disponible.")}</p>${d.keywords?.length?`<div class="meta">Mots-clés : ${d.keywords.slice(0,12).map(esc).join(", ")}</div>`:""}`;$("#modal").classList.add("open")}
+async function load(reset=true){
+ if(reset)page=1;
+ const q=$("#q").value.trim()||"space",year=$("#year").value;$("#status").textContent="Recherche NASA…";
+ try{
+  let url=`https://images-api.nasa.gov/search?q=${encodeURIComponent(q)}&media_type=image&page=${page}&page_size=20`;
+  if(year)url+=`&year_start=${year}&year_end=${year}`;
+  const d=await get(url);items=d.collection?.items||[];
+  $("#grid").innerHTML=items.map(card).join("");bind();
+  $("#status").textContent=`${items.length} images · page ${page}${year?" · "+year:""}`;
+ }catch(e){$("#status").textContent="Impossible de charger la galerie NASA pour le moment.";$("#grid").innerHTML=""}
+}
+document.querySelectorAll(".scope").forEach(b=>b.onclick=()=>{$("#q").value=b.dataset.q;load(true)});
+$("#search").onclick=()=>load(true);$("#more").onclick=()=>{page++;load(false)};$("#q").addEventListener("keydown",e=>{if(e.key==="Enter")load(true)});$("#year").onchange=()=>load(true);$("#close").onclick=()=>$("#modal").classList.remove("open");$("#modal").onclick=e=>{if(e.target===$("#modal"))$("#modal").classList.remove("open")};load();
+</script></body></html>
