@@ -7,8 +7,27 @@ header{display:flex;justify-content:space-between;align-items:center}.logo{font-
 .controls{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}input,select,button{padding:12px 14px;border-radius:12px;font:inherit}input,select{background:var(--p);border:1px solid var(--line);color:var(--txt)}input{flex:1;min-width:220px}button{border:0;background:var(--a);color:#04212b;font-weight:900;cursor:pointer}.secondary{background:var(--p2);color:var(--txt);border:1px solid var(--line)}
 .status{color:var(--mut);margin:12px 0}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:14px}.card{background:var(--p);border:1px solid var(--line);border-radius:18px;overflow:hidden;cursor:pointer}.card img{width:100%;height:210px;object-fit:cover;background:#05080d}.ct{padding:13px}.ct b{font-size:17px}.ct span{display:block;color:var(--mut);margin-top:5px}.modal{position:fixed;inset:0;background:#000b;display:none;place-items:center;padding:20px;z-index:20}.modal.open{display:grid}.modalbox{max-width:900px;max-height:90vh;overflow:auto;background:var(--p);border:1px solid var(--line);border-radius:22px;padding:18px}.modalbox img{width:100%;max-height:60vh;object-fit:contain;border-radius:14px;background:#05080d}.close{float:right;background:var(--b);color:#261506}.desc{color:#d6e1e9;line-height:1.6}.meta{color:var(--mut)}footer{margin-top:30px;border-top:1px solid var(--line);padding:20px 0;color:#728fa3}@media(max-width:650px){.pill{display:none}}
 .telescopes{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}.scope{background:var(--p2);color:var(--txt);border:1px solid var(--line);padding:9px 12px}.scope:hover{border-color:var(--a);color:var(--a)}
+.ad-zone{width:100%;display:flex;justify-content:center;align-items:center;margin:30px auto;overflow:hidden}
+.ad-desktop{display:block;max-width:728px}.ad-mobile{display:none;max-width:320px}.ad-square{min-height:250px}
+@media(max-width:900px){.ad-desktop{display:none}.ad-mobile{display:block}}
 </style></head><body><div class="wrap"><header><div class="logo">SPACEGALLERY<b>DEX</b> 🌌</div><div class="pill">NASA Images API · sans clé</div></header>
 <section class="hero"><h1>Galerie<br>spatiale NASA.</h1><p>Recherche des images de missions, planètes, astronautes, galaxies, télescopes et objets célestes directement dans la bibliothèque média de la NASA.</p></section>
+
+<section class="ad-zone" aria-label="Publicité">
+  <div class="ad-desktop">
+    <script>
+      atOptions={'key':'e00bb1cd825e2956cb472f08dcaac46d','format':'iframe','height':90,'width':728,'params':{}};
+    </script>
+    <script src="https://www.highrevenueformat.com/e00bb1cd825e2956cb472f08dcaac46d/invoke.js"></script>
+  </div>
+  <div class="ad-mobile">
+    <script>
+      atOptions={'key':'70b50bfed27dcbb71dee5773d3275b57','format':'iframe','height':50,'width':320,'params':{}};
+    </script>
+    <script src="https://www.highrevenueformat.com/70b50bfed27dcbb71dee5773d3275b57/invoke.js"></script>
+  </div>
+</section>
+
 <div class="controls"><input id="q" value="James Webb Space Telescope" placeholder="Rechercher dans la NASA…"><select id="year"><option value="">Toutes les années</option></select><button id="search">Rechercher</button><button id="more" class="secondary">20 suivantes</button></div>
 <div class="telescopes">
 <button class="scope" data-q="James Webb Space Telescope">🔭 James Webb</button>
@@ -25,7 +44,41 @@ header{display:flex;justify-content:space-between;align-items:center}.logo{font-
 <button class="scope" data-q="Solar Dynamics Observatory SDO">☀️ SDO</button>
 <button class="scope" data-q="SOHO Solar Observatory">☀️ SOHO</button>
 <button class="scope" data-q="Nancy Grace Roman Space Telescope">🔭 Roman</button>
-</div><div id="status" class="status">Chargement de la galerie…</div><main id="grid" class="grid"></main>
+</div>
+
+<div id="status" class="status">Chargement de la galerie…</div>
+
+<section class="ad-zone ad-square" aria-label="Publicité">
+  <script>
+    atOptions={'key':'c92fea8ac3235aacbf84b103f9f21a26','format':'iframe','height':250,'width':300,'params':{}};
+  </script>
+  <script src="https://www.highrevenueformat.com/c92fea8ac3235aacbf84b103f9f21a26/invoke.js"></script>
+</section>
+
+<main id="grid" class="grid"></main>
+
+<section class="ad-zone ad-square" aria-label="Publicité">
+  <script>
+    atOptions={'key':'c92fea8ac3235aacbf84b103f9f21a26','format':'iframe','height':250,'width':300,'params':{}};
+  </script>
+  <script src="https://www.highrevenueformat.com/c92fea8ac3235aacbf84b103f9f21a26/invoke.js"></script>
+</section>
+
+<section class="ad-zone" aria-label="Publicité">
+  <div class="ad-desktop">
+    <script>
+      atOptions={'key':'e00bb1cd825e2956cb472f08dcaac46d','format':'iframe','height':90,'width':728,'params':{}};
+    </script>
+    <script src="https://www.highrevenueformat.com/e00bb1cd825e2956cb472f08dcaac46d/invoke.js"></script>
+  </div>
+  <div class="ad-mobile">
+    <script>
+      atOptions={'key':'70b50bfed27dcbb71dee5773d3275b57','format':'iframe','height':50,'width':320,'params':{}};
+    </script>
+    <script src="https://www.highrevenueformat.com/70b50bfed27dcbb71dee5773d3275b57/invoke.js"></script>
+  </div>
+</section>
+
 <footer>SpaceGalleryDex · NASA Image and Video Library · compatible GitHub Pages.</footer></div>
 <div id="modal" class="modal"><div class="modalbox"><button class="close" id="close">Fermer</button><div id="detail"></div></div></div>
 <script>
